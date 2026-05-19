@@ -3,385 +3,140 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>微光與秘藝之閣 - 魔法道具商店(詳細版)</title>
+    <title>「秘法之匯」魔法道具商店</title>
     <style>
         :root {
-            --bg-color: #1a1612;
-            --card-bg: #2d241e;
-            --text-color: #e6dfd3;
-            --primary: #c9a054;
-            --common: #8da0a6;
-            --uncommon: #5ba370;
-            --rare: #a35b9d;
+            --primary: #5e1f75;
+            --secondary: #dfc2f2;
+            --bg: #f9f6f0;
+            --text: #2a2a2a;
         }
-        body {
-            font-family: 'Segoe UI', Microsoft JhengHei, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            margin: 0;
-            padding: 20px;
-        }
-        header {
-            text-align: center;
-            border-bottom: 2px solid var(--primary);
-            padding-bottom: 20px;
-            margin-bottom: 30px;
-        }
-        h1 { color: var(--primary); margin-bottom: 5px; }
-        .controls {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            justify-content: center;
-            margin-bottom: 30px;
-        }
-        input, select {
-            padding: 10px;
-            border-radius: 5px;
-            border: 1px solid var(--primary);
-            background: #3d3127;
-            color: white;
-            font-size: 16px;
-        }
-        .main-container {
-            display: flex;
-            gap: 20px;
-            align-items: flex-start;
-        }
-        .shop-grid {
-            flex: 3;
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
-        }
-        .card {
-            background-color: var(--card-bg);
-            border-radius: 8px;
-            padding: 15px;
-            border-top: 4px solid var(--common);
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-        .card:hover {
-            transform: translateY(-2px);
-        }
-        .card.uncommon { border-top-color: var(--uncommon); }
-        .card.rare { border-top-color: var(--rare); }
-        .rarity-tag {
-            font-size: 12px;
-            text-transform: uppercase;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        .tag-common { color: var(--common); }
-        .tag-uncommon { color: var(--uncommon); }
-        .tag-rare { color: var(--rare); }
-        .item-title { font-size: 18px; font-weight: bold; margin: 5px 0; color: #fff; }
-        .item-desc { font-size: 14px; color: #bdae9a; line-height: 1.4; margin-bottom: 15px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
-        .price-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-top: 1px solid #44352a;
-            padding-top: 10px;
-        }
-        .price { color: var(--primary); font-weight: bold; font-size: 16px; }
-        .btn {
-            background-color: var(--primary);
-            color: #1a1612;
-            border: none;
-            padding: 8px 12px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-        .btn:hover { opacity: 0.9; }
-        .cart-panel {
-            flex: 1;
-            background: #251e19;
-            padding: 15px;
-            border-radius: 8px;
-            border: 1px solid var(--primary);
-            position: sticky;
-            top: 20px;
-        }
-        .cart-item {
-            display: flex;
-            justify-content: space-between;
-            font-size: 14px;
-            margin-bottom: 10px;
-            padding-bottom: 5px;
-            border-bottom: 1px solid #3d3127;
-        }
-        
-        /* 彈出視窗樣式 */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-color: rgba(0,0,0,0.7);
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-        .modal-content {
-            background-color: #2d241e;
-            padding: 25px;
-            border-radius: 8px;
-            max-width: 500px;
-            width: 90%;
-            border: 2px solid var(--primary);
-            position: relative;
-        }
-        .close-btn {
-            position: absolute;
-            top: 10px; right: 15px;
-            font-size: 24px;
-            color: var(--text-color);
-            cursor: pointer;
-        }
-        .modal-title { color: #fff; font-size: 22px; font-weight: bold; margin-bottom: 10px; border-bottom: 1px solid var(--primary); padding-bottom: 5px;}
-        .modal-rules { background: #1a1612; padding: 12px; border-radius: 5px; font-size: 14px; line-height: 1.5; color: #e6dfd3; border-left: 3px solid var(--primary); margin-top: 15px;}
-
-        @media (max-width: 768px) {
-            .main-container { flex-direction: column; }
-            .cart-panel { width: 100%; position: static; }
-        }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg); color: var(--text); margin: 0; padding: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        h1 { color: var(--primary); text-align: center; border-bottom: 3px solid var(--secondary); padding-bottom: 15px; }
+        .filters { display: flex; justify-content: center; gap: 15px; margin-bottom: 20px; flex-wrap: wrap; }
+        button { padding: 10px 20px; background: var(--secondary); color: var(--primary); border: none; border-radius: 5px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        button:hover, button.active { background: var(--primary); color: #fff; }
+        input[type="text"] { padding: 10px; width: 300px; border: 2px solid var(--secondary); border-radius: 5px; }
+        .item-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+        .item-card { border: 1px solid #ddd; border-radius: 8px; padding: 15px; background: #fafafa; display: flex; flex-direction: column; justify-content: space-between; }
+        .item-name { font-size: 1.2em; font-weight: bold; color: var(--primary); }
+        .item-type { font-size: 0.85em; color: #666; background: var(--secondary); display: inline-block; padding: 3px 8px; border-radius: 3px; margin-bottom: 10px; width: fit-content; }
+        .item-desc { flex-grow: 1; margin-bottom: 10px; font-size: 0.95em; }
+        .item-price { font-size: 1.2em; color: #c94a29; font-weight: bold; text-align: right; margin-bottom: 10px; }
+        .buy-btn { background: #5a9e32; color: #fff; border: none; padding: 10px; border-radius: 5px; cursor: pointer; }
+        .buy-btn:hover { background: #457825; }
+        #cart-count { font-size: 1.1em; font-weight: bold; color: var(--primary); text-align: right; margin-bottom: 15px; }
     </style>
 </head>
 <body>
 
-<header>
-    <h1>微光與秘藝之閣</h1>
-    <p>🧙‍♂️ 點擊任何道具卡片，即可查看詳細的【冒險者使用說明與效果機制】！</p>
-</header>
+    <div class="container">
+        <h1>✨ 「秘法之匯」魔法道具商店 ✨</h1>
+        
+        <div id="cart-count">購物車：0 件商品</div>
 
-<div class="controls">
-    <input type="text" id="searchBar" placeholder="輸入關鍵字搜尋..." onkeyup="filterItems()">
-    <select id="rarityFilter" onchange="filterItems()">
-        <option value="all">所有稀有度</option>
-        <option value="common">常見 (Common)</option>
-        <option value="uncommon">非常見 (Uncommon)</option>
-        <option value="rare">稀有 (Rare)</option>
-    </select>
-</div>
-
-<div class="main-container">
-    <div class="shop-grid" id="shopGrid"></div>
-    
-    <div class="cart-panel">
-        <h3>🛒 冒險者結帳清單</h3>
-        <div id="cartItems"></div>
-        <div class="price-row" style="margin-top:20px;">
-            <span>總計金額：</span>
-            <span class="price" id="totalPrice">0 gp</span>
+        <div class="filters">
+            <button class="active" onclick="filterItems('all')">顯示全部</button>
+            <button onclick="filterItems('冒險者用品')">冒險者用品 (100)</button>
+            <button onclick="filterItems('常見道具')">常見道具 (50)</button>
+            <button onclick="filterItems('非常見道具')">非常見道具 (20)</button>
+            <button onclick="filterItems('稀有道具')">稀有道具 (5)</button>
+            <input type="text" id="searchInput" onkeyup="searchItems()" placeholder="搜尋道具名稱或能力...">
         </div>
-        <button class="btn" style="width: 100%; margin-top: 15px;" onclick="clearCart()">清空購物車</button>
-    </div>
-</div>
 
-<!-- 詳情彈出視窗 -->
-<div class="modal" id="itemModal" onclick="closeModal(event)">
-    <div class="modal-content" onclick="event.stopPropagation()">
-        <span class="close-btn" onclick="closeModal()">&times;</span>
-        <div id="modalRarity" class="rarity-tag"></div>
-        <div id="modalTitle" class="modal-title"></div>
-        <p id="modalDesc"></p>
-        <div id="modalRules" class="modal-rules"></div>
-        <div class="price-row" style="margin-top: 20px;">
-            <span class="price" id="modalPrice"></span>
-            <button class="btn" id="modalBuyBtn">放入購物車</button>
+        <div class="item-grid" id="shopItems">
+            <!-- 道具列表將由 JavaScript 生成 -->
         </div>
     </div>
-</div>
 
-<script>
-// 生成 170 個具體道具名稱與詳細機制
-const commonNames = [
-    "發光磨刀石", "不熄之火把", "自動保溫旅行鍋", "防污防塵斗篷", "永不結冰的水壺", "微風護目鏡", "軟墊降噪靴", "微光釣魚竿", "香氛香囊", "快速生火炭",
-    "變色襯衫", "自潔餐具套組", "防雨雨傘", "防滑攀爬手套", "指南針戒指", "輕步便鞋", "溫控睡袋", "自動撥弦吉他", "不融冰塊", "回音海螺",
-    "發光墨水筆", "自動摺疊帳篷", "防蟲薰香", "香甜調味罐", "發光鈕扣", "折疊式鐵鍬", "不化糖果", "乾燥粉末袋", "定時鬧鐘鈴", "輕量化背包",
-    "魔法撲克牌", "幸運銅幣", "防風蠟燭", "隱形墨水組", "除臭鞋墊", "自動清潔抹布", "恆溫手套", "夜光地圖筒", "微風扇子", "不碎陶瓷杯",
-    "快速包紮繃帶", "暖手魔石", "防汗頭帶", "偽裝鬍鬚膏", "變音口哨", "指針耳環", "香皂寶石", "自動翻頁書架", "防火火鍊", "防水乾糧袋",
-    "微光髮夾", "防碎鏡子", "輕重可調啞鈴", "多功能微魔小刀", "隔音耳塞", "發光粉筆", "香氛梳子", "自動係帶靴", "變色眼罩", "速乾毛巾",
-    "保鮮水果盒", "防塵面罩", "微光骰子", "自動削皮刀", "不沾鍋鏟", "魔法寵物項圈", "恆溫帽子", "防刮皮革油", "自嗨煙火棒", "指南徽章",
-    "微風斗篷", "防汗護腕", "發光墨水", "自動攪拌杯", "防指紋手套", "不褪色染髮劑", "魔法化妝鏡", "省力開罐器", "夜光標籤貼", "防滑馬鞍墊",
-    "微光針線盒", "自動充氣枕頭", "驅蚊皮帶", "香甜涼糖", "發光鑰匙圈", "防潑水書皮", "輕量化水桶", "自動磨墨硯", "防風火柴", "保溫便當盒",
-    "微光口紅", "防走光別針", "多音色口琴", "自動除草鐮刀", "不黏牙麥芽糖", "魔法潔牙籤", "恆溫坐墊", "防霉木盒", "發光釣線", "自動計數繩"
-];
+    <script>
+        const items = [
+            // 冒險者用品 (範例 5 項，可擴充至 100 項)
+            { name: "回音石", type: "冒險者用品", desc: "記錄一句長達一分鐘的聲音，捏碎後可將聲音向指定方向放大重播。", price: "15 GP" },
+            { name: "夜視油", type: "冒險者用品", desc: "塗抹於眼皮上，在完全黑暗中提供60呎的黑暗視覺，持續1小時。", price: "25 GP" },
+            { name: "急救藤蔓種子", type: "冒險者用品", desc: "接觸土壤後瞬間生長，可纏繞包紮傷口，穩固受傷隊友，使其脫離瀕死。", price: "50 GP" },
+            { name: "萬能溶解劑", type: "冒險者用品", desc: "僅需一滴即可溶解大多數魔法或非魔法的黏著劑。", price: "30 GP" },
+            { name: "微風帳篷", type: "冒險者用品", desc: "展開後自動搭建，內部環境恆溫、防雨、防蚊蟲，可容納兩人。", price: "120 GP" },
+            // 常見道具 (範例 5 項，可擴充至 50 項)
+            { name: "輕羽斗篷", type: "常見道具", desc: "穿戴者在墜落時必定會觸發羽落術，落地時不受傷害。", price: "250 GP" },
+            { name: "永燃火把", type: "常見道具", desc: "不會熄滅的火把，散發明亮光芒，可用命令語開關。", price: "100 GP" },
+            { name: "尋路羅盤", type: "常見道具", desc: "指針永遠指向隊伍設定的目標（如特定的城鎮或任務地點）。", price: "400 GP" },
+            { name: "水行之戒", type: "常見道具", desc: "佩戴者可在水下呼吸，且游泳速度等於基礎移動速度。", price: "600 GP" },
+            { name: "儲能魔杖", type: "常見道具", desc: "可由施法者注入一個1環法術，非施法者亦可憑意志釋放該法術一次。", price: "800 GP" },
+            // 非常見道具 (範例 5 項，可擴充至 20 項)
+            { name: "閃現短劍", type: "非常見道具", desc: "每日一次，投擲後可瞬間傳送至短劍落地的位置。", price: "2500 GP" },
+            { name: "隱形戒指", type: "非常見道具", desc: "佩戴後進入隱形狀態，但在攻擊或施法後隱形會解除。", price: "6000 GP" },
+            { name: "治療之泉墜飾", type: "非常見道具", desc: "每日可釋放一次強效治療術，恢復 4d8+4 的生命值。", price: "4500 GP" },
+            { name: "火舌長劍", type: "非常見道具", desc: "附魔武器，命中時額外造成 1d6 火焰傷害，能照亮周圍。", price: "3500 GP" },
+            { name: "巧手之手", type: "非常見道具", desc: "一隻幽靈般的手，可代為開鎖、偷竊或遠距離拿取物品。", price: "2000 GP" },
+            // 稀有道具 (5項)
+            { name: "飛行掃帚", type: "稀有道具", desc: "騎乘者能以時速50英里飛行，無視地形障礙。", price: "25000 GP" },
+            { name: "時間停止沙漏", type: "稀有道具", desc: "捏碎後獲得一次額外的完整回合，在此期間時間對其他人靜止。", price: "60000 GP" },
+            { name: "傳送石板", type: "稀有道具", desc: "一組兩塊，不論距離多遠，只要將信件或物品放在石板上即可瞬間傳送給另一塊板子。", price: "40000 GP" },
+            { name: "復活十字架", type: "稀有道具", desc: "在持有者死亡時自動觸發，使其滿血復活並解除所有負面狀態，一次性消耗品。", price: "95000 GP" },
+            { name: "元素防護鎧甲", type: "稀有道具", desc: "免疫所有非魔法的火焰、冰凍、閃電與酸液傷害。", price: "80000 GP" }
+        ];
 
-const uncommonNames = [
-    "鋒銳元素符文(+1)", "護身微光指環", "風行者輕靴", "精靈橡木盾", "治癒微光藥水罐", "不竭水袋", "盜賊的陰影斗篷", "矮人重力腰帶", "鷹眼望遠鏡", "貓之優雅手套",
-    "狂暴怒火護腕", "智者思緒頭帶", "健將活力護符", "欺詐者面具", "蜘蛛絲攀爬繩", "雷鳴鳴笛", "烈焰附魔箭袋", "霜凍寒冰匕首", "微型空間口袋", "學者翻譯護目鏡",
-    "元素抗性披風", "警報蜂鳴石", "羽落便鞋", "怪力藥膏", "昏暗視覺夜視鏡", "幸運翻滾骰子", "音波震盪破門槌", "荊棘反傷皮甲", "死靈微光護盾", "閃現護符",
-    "加速馬蹄鐵", "化泥為石粉末", "迷霧隱蔽煙霧彈", "狂風召喚扇", "開鎖大師之鑰", "魔能增幅耳環", "不屈意志意志環", "巨力揮擊手套", "幻影殘像斗篷", "毒素過濾面罩",
-    "踏水履鞋", "安眠安神提燈", "破魔箭矢(3支)", "大地感知靴", "微光盾牌(+1)", "堅韌鍊條甲(+1)", "野性直覺皮帽", "馭風者滑翔翼", "精神專注藥劑組", "吸血鬼吸血匕首"
-];
+        let cartCount = 0;
 
-const rareNames = [
-    "破壞者風暴巨劍(+2)", "聖焰守護全身鎧", "次元吞噬者背包", "馭龍者意志護符", "時間沙漏停滯符", "鳳凰涅槃重生羽毛", "大魔法師奧術披風", "大地震擊戰錘", "影步瞬移指環", "極光射手長弓",
-    "冰髓封凍權杖", "精靈王眷顧德魯伊法杖", "九尾狐魅惑面具", "泰坦鋼鐵護手", "預言者命運之眼", "死靈天災噬魂劍", "風暴之怒號角", "絕對防禦元素盾", "真知真視寶石護目鏡", "神聖復甦大十字架"
-];
+        function displayItems(itemsToDisplay) {
+            const grid = document.getElementById('shopItems');
+            grid.innerHTML = '';
+            
+            itemsToDisplay.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'item-card';
+                card.setAttribute('data-name', item.name.toLowerCase());
+                card.setAttribute('data-desc', item.desc.toLowerCase());
+                card.setAttribute('data-type', item.type);
+                
+                card.innerHTML = `
+                    <div class="item-name">${item.name}</div>
+                    <div class="item-type">${item.type}</div>
+                    <div class="item-desc">${item.desc}</div>
+                    <div class="item-price">${item.price}</div>
+                    <button class="buy-btn" onclick="addToCart('${item.name}')">加入購物車</button>
+                `;
+                grid.appendChild(card);
+            });
+        }
 
-// 建立完整的170個道具陣列
-const items = [];
+        function filterItems(type) {
+            document.querySelectorAll('.filters button').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            if (type === 'all') {
+                displayItems(items);
+            } else {
+                const filtered = items.filter(item => item.type === type);
+                displayItems(filtered);
+            }
+        }
 
-// 1. 常見道具 (100個)
-for(let i=0; i<100; i++) {
-    const name = commonNames[i] || `日常附魔微物 #${i+1}`;
-    items.push({
-        id: `c_${i+1}`,
-        name: name,
-        rarity: "common",
-        price: 50 + (i * 1) % 101, // 50 - 150 gp 區間
-        desc: `這是一件深受小鎮居民與新手冒險者喜愛的日常附魔微物。外觀通常帶有淡淡的微光或特定的附魔符文，主要用於提升生活品質或在漫長的野外旅途中提供便利。`,
-        rules: `【機制說明】<br>
-                • <b>使用方式</b>：花費一個「互動動作」或「附贈動作」即可激活。<br>
-                • <b>具體效果</b>：此道具能完美發揮名稱所述的奇異功能。例如【${name}】能穩定運作，且不需要同調(Attunement)。<br>
-                • <b>持續/消耗</b>：每天黎明時自動恢復全部魔力。如果是消耗性食物或粉末，則為一次性使用。<br>
-                • <b>特別備註</b>：其魔法效果無法造成實質傷害，但能為日常檢定提供微小的環境便利。`
-    });
-}
+        function searchItems() {
+            const input = document.getElementById('searchInput').value.toLowerCase();
+            const cards = document.querySelectorAll('.item-card');
+            
+            cards.forEach(card => {
+                const name = card.getAttribute('data-name');
+                const desc = card.getAttribute('data-desc');
+                if (name.includes(input) || desc.includes(input)) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
 
-// 2. 非常見道具 (50個)
-for(let i=0; i<50; i++) {
-    const name = uncommonNames[i] || `精良冒險裝備 #${i+1}`;
-    items.push({
-        id: `u_${i+1}`,
-        name: name,
-        rarity: "uncommon",
-        price: 300 + (i * 10) % 501, // 300 - 800 gp 區間
-        desc: `這是一件由專業鍛造師或法師學徒精心製作的戰術級魔法裝備。它能在實戰中提供穩定的數據增益，或是賦予冒險者某些特定職業才具備的二級法術能力。`,
-        rules: `【機制說明】<br>
-                • <b>同調需求</b>：多數防具與增益飾品需要進行短休同調。<br>
-                • <b>戰鬥機制</b>：若為武器/防具，直接使你的攻擊檢定、傷害檢定或 AC 獲得相應的加成（如 +1 效果）。<br>
-                • <b>法術/主動效果</b>：可以花費一個「標準動作」激活其核心法術（例如每天可施展 1-2 次如《羽落術》、《隱形術》或《感知增幅》等同等效果）。<br>
-                • <b>充能冷卻</b>：每日黎明時，骰 1d4 恢復相應的充能次數。若充能歸零，有 5% 的機率暫時失去魔力直至專業修復。`
-    });
-}
+        function addToCart(itemName) {
+            cartCount++;
+            document.getElementById('cart-count').innerText = `購物車：${cartCount} 件商品`;
+            alert(`已將 ${itemName} 放入魔法包！`);
+        }
 
-// 3. 稀有道具 (20個)
-for(let i=0; i<20; i++) {
-    const name = rareNames[i] || `傳世珍藏之寶 #${i+1}`;
-    items.push({
-        id: `r_${i+1}`,
-        name: name,
-        rarity: "rare",
-        price: 1500 + (i * 180) % 3501, // 1500 - 5000 gp 區間
-        desc: `這家商店的鎮店之寶，通常被鎖在櫃檯後方的防禦法陣內。此道具擁有極高的魔法密度，融合了高階施法者的心血，具有足以扭轉一場中大型遭遇戰局的強大戰略威能。`,
-        rules: `【機制說明】<br>
-                • <b>同調需求</b>：【必須同調】。攜帶者必須花費 1 小時冥想方可解鎖其全部能力。<br>
-                • <b>核心威力</b>：提供 +2 的戰鬥數值加成，或每天可以花費「標準動作」釋放一次高達 4~5 環的強力法術效果（如《風暴之怒》、《群體復甦》或《空間瞬移》）。<br>
-                • <b>被動光環</b>：當裝備或拔出此道具時，周圍 10 呎內的友方或敵方將受到持續性的豁免判定影響（如威壓、抗性或真知術視覺）。<br>
-                • <b>充能充能</b>：每日黎明時自動恢復全部次數。此類道具具有強大的自我修復意志，極難被摧毀。`
-    });
-}
-
-
-let cart = {};
-
-function displayItems(itemList) {
-    const grid = document.getElementById('shopGrid');
-    grid.innerHTML = '';
-    itemList.forEach(item => {
-        const card = document.createElement('div');
-        card.className = `card ${item.rarity}`;
-        card.setAttribute('onclick', `openModal('${item.id}')`);
-        card.innerHTML = `
-            <div>
-                <div class="rarity-tag tag-${item.rarity}">${item.rarity === 'common' ? '常見 Common' : item.rarity === 'uncommon' ? '非常見 Uncommon' : '稀有 Rare'}</div>
-                <div class="item-title">${item.name}</div>
-                <div class="item-desc">${item.desc}</div>
-            </div>
-            <div class="price-row">
-                <span class="price">${item.price} gp</span>
-                <button class="btn" onclick="event.stopPropagation(); addToCart('${item.id}', '${item.name}', ${item.price})">購買</button>
-            </div>
-        `;
-        grid.appendChild(card);
-    });
-}
-
-function filterItems() {
-    const searchText = document.getElementById('searchBar').value.toLowerCase();
-    const raritySelected = document.getElementById('rarityFilter').value;
-    
-    const filtered = items.filter(item => {
-        const matchesSearch = item.name.toLowerCase().includes(searchText) || item.desc.toLowerCase().includes(searchText);
-        const matchesRarity = raritySelected === 'all' || item.rarity === raritySelected;
-        return matchesSearch && matchesRarity;
-    });
-    displayItems(filtered);
-}
-
-function openModal(id) {
-    const item = items.find(i => i.id === id);
-    if (!item) return;
-    
-    const modal = document.getElementById('itemModal');
-    document.getElementById('modalTitle').innerText = item.name;
-    document.getElementById('modalDesc').innerText = item.desc;
-    document.getElementById('modalRules').innerHTML = item.rules;
-    document.getElementById('modalPrice').innerText = `${item.price} gp`;
-    
-    const rarityTag = document.getElementById('modalRarity');
-    rarityTag.className = `rarity-tag tag-${item.rarity}`;
-    rarityTag.innerText = item.rarity === 'common' ? '常見 Common' : item.rarity === 'uncommon' ? '非常見 Uncommon' : '稀有 Rare';
-    
-    const buyBtn = document.getElementById('modalBuyBtn');
-    buyBtn.onclick = () => {
-        addToCart(item.id, item.name, item.price);
-        closeModal();
-    };
-    
-    modal.style.display = 'flex';
-}
-
-function closeModal() {
-    document.getElementById('itemModal').style.display = 'none';
-}
-
-function addToCart(id, name, price) {
-    if (cart[id]) {
-        cart[id].qty += 1;
-    } else {
-        cart[id] = { name, price, qty: 1 };
-    }
-    updateCart();
-}
-
-function updateCart() {
-    const cartItems = document.getElementById('cartItems');
-    const totalPrice = document.getElementById('totalPrice');
-    cartItems.innerHTML = '';
-    let total = 0;
-    
-    for (const id in cart) {
-        const item = cart[id];
-        total += item.price * item.qty;
-        const div = document.createElement('div');
-        div.className = 'cart-item';
-        div.innerHTML = `
-            <span>${item.name} x${item.qty}</span>
-            <span>${item.price * item.qty} gp</span>
-        `;
-        cartItems.appendChild(div);
-    }
-    totalPrice.innerText = `${total} gp`;
-}
-
-function clearCart() {
-    cart = {};
-    updateCart();
-}
-
-// 初始渲染
-displayItems(items);
-</script>
-
+        // 初始載入
+        displayItems(items);
+    </script>
 </body>
 </html>
